@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ dino.name }} - Dinosaur Details{% endblock %}
+
+{% block content %}
+<h1>{{ dino.name }}</h1>
+<dl>
+    <dt>Period:</dt>
+    <dd>{{ dino.get_period_display }}</dd>
+    <dt>Size:</dt>
+    <dd>{{ dino.get_size_display }}</dd>
+    <dt>Eating:</dt>
+    <dd>{{ dino.get_eating_display }}</dd>
+    <dt>Color:</dt>
+    <dd>{{ dino.color }}</dd>
+    <dt>Description:</dt>
+    <dd>{{ dino.description }}</dd>
+</dl>
+<h2>Images</h2>
+{% if images %}
+<ul>
+    {% for image in images %}
+    <li>
+        <img src="{{ image.image.url }}" alt="{{ dino.name }} image">
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No images available.</p>
+{% endif %}
+{% if request.user.is_authenticated %}
+<form method="post" action="{% url 'add_image' dino.pk %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <label for="image">Add Image:</label>
+        <input type="file" id="image" name="image">
+    </div>
+    <input type="submit" value="Add Image">
+</form>
+{% if is_favorited %}
+<form method="post" action="{% url 'remove_favorite' dino.pk %}">
+    {% csrf_token %}
+    <button type="submit">Remove from Favorites</button>
+</form>
+{% else %}
+<form method="post" action="{% url 'add_favorite' dino.pk %}">
+    {% csrf_token %}
+    <button type="submit">Add to Favorites</button>
+</form>
+{% endif %}
+<p>
+    <a href="{% url 'edit_dinosaur' dino.pk %}">Edit Dinosaur</a>
+    |
+    <a href="{% url 'delete_dinosaur' dino.pk %}">Delete Dinosaur</a>
+</p>
+{% endif %}
+{% endblock %}

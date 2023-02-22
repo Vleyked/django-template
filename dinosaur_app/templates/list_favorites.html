@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Favorite Dinosaurs{% endblock %}
+
+{% block content %}
+<h1>Favorite Dinosaurs</h1>
+{% if dinos %}
+<ul>
+    {% for dino in dinos %}
+    <li>
+        <a href="{% url 'dinosaur_detail' dino.pk %}">{{ dino.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>You have not favorited any dinosaurs yet.</p>
+{% endif %}
+{% endblock %}

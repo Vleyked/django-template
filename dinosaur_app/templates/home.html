@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Dinopedia{% endblock %}
+
+{% block content %}
+<h1>Welcome to Dinopedia</h1>
+<p>
+    Dinopedia is your one-stop shop for all things dinosaur-related! Use the links
+    in the navigation bar to explore the different features of our app, including
+    adding and browsing dinosaurs, adding images to dinosaurs, and favoriting your
+    favorite dinos.
+</p>
+<h2>All Dinosaurs</h2>
+<form method="get" class="search-form">
+    <label for="search">Search by period:</label>
+    <select name="period" id="search">
+        <option value="">All periods</option>
+        <option value="triassic">Triassic</option>
+        <option value="jurassic">Jurassic</option>
+        <option value="cretaceous">Cretaceous</option>
+        <option value="paleogene">Paleogene</option>
+        <option value="neogene">Neogene</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Period</th>
+            <th>Size</th>
+            <th>Eating</th>
+            <th>Color</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dinosaur in dinosaurs %}
+        <tr>
+            <td>{{ dinosaur.name }}</td>
+            <td>{{ dinosaur.period }}</td>
+            <td>{{ dinosaur.get_size_display }}</td>
+            <td>{{ dinosaur.get_eating_display }}</td>
+            <td>{{ dinosaur.color }}</td>
+            <td>
+                <a href="{% url 'dinosaur_detail' dinosaur.pk %}">Details</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No dinosaurs found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

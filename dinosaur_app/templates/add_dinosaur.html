@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Dinosaur{% endblock %}
+
+{% block content %}
+<h1>Add Dinosaur</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+    </div>
+    <div>
+        <label for="period">Period:</label>
+        <select id="period" name="period">
+            <option value="triassic">Triassic</option>
+            <option value="jurassic">Jurassic</option>
+            <option value="cretaceous">Cretaceous</option>
+            <option value="paleogene">Paleogene</option>
+            <option value="neogene">Neogene</option>
+        </select>
+    </div>
+    <div>
+        <label for="size">Size:</label>
+        <select id="size" name="size">
+            <option value="tiny">Tiny</option>
+            <option value="very_small">Very Small</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+            <option value="very_large">Very Large</option>
+        </select>
+    </div>
+    <div>
+        <label for="eating">Eating:</label>
+        <select id="eating" name="eating">
+            <option value="herbivore">Herbivore</option>
+            <option value="carnivore">Carnivore</option>
+            <option value="omnivore">Omnivore</option>
+        </select>
+    </div>
+    <div>
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color">
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+    </div>
+    <div>
+        <label for="image1">Image 1:</label>
+        <input type="file" id="image1" name="image1">
+    </div>
+    <div>
+        <label for="image2">

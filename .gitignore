@@ -1,3 +1,9 @@
+# Vscode settings
+.vscode/
+
+# Custom rules for the project
+dinopedia_venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
