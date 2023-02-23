@@ -1,7 +1,7 @@
 # dinopedia
 # Super user
-dino-admin
-Dinopedia-admin,123
+- User: dino-admin
+- Password: Dinopedia-admin,123
 
 ## Prerequisites
 Before running the application, you will need to have the following software installed on your machine:
