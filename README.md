@@ -1,8 +1,7 @@
 # dinopedia
 # Super user
-admin
-victorcidfiguera@gmail.com
-Abc123,666
+dino-admin
+Dinopedia-admin,123
 
 ## Prerequisites
 Before running the application, you will need to have the following software installed on your machine:
