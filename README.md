@@ -46,10 +46,8 @@ To stop the application, press `Ctrl+C` in the terminal where `docker-compose` u
 
 To remove the Docker containers and volumes, run the following command:
 
-`docker stop $(docker ps -a -q)`
-`docker rm $(docker ps -a -q)`
-`docker volume rm $(docker volume ls -q)`
-`docker rmi $(docker images -q)`
-`docker network prune`
+**Please be careful with this command, it will remove all your containers and volumes.**
+
+`docker network prune -f && docker volume prune -f && docker container prune -f && docker image prune --all -f`
 
 Happy coding!

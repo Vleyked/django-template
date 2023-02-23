@@ -1,7 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block extra_head %}
@@ -12,7 +14,7 @@
 <body>
     <header>
         <div class="logo">
-            <img src="{% static 'img/logo.png' %}" alt="Dinosaur App Logo">
+            <img src="{% static 'dinopedia-logo.png' %}" alt="Dinosaur App Logo">
         </div>
         <nav>
             <ul>
@@ -33,7 +35,7 @@
     {% endblock %}
 
     <footer>
-        <p>&copy; 2023 Dinosaur App. All rights reserved.</p>
+        <p> Victor Cid 2023 Dinopedia. </p>
     </footer>
 
     {% block extra_scripts %}
