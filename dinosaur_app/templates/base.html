@@ -10,22 +10,31 @@
 </head>
 
 <body>
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="{% url 'add_dinosaur' %}">Add Dinosaur</a></li>
-            <li><a href="{% url 'list_favorites' %}">Favorites</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-            {% endif %}
-        </ul>
-    </nav>
+    <header>
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="Dinosaur App Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'add_dinosaur' %}">Add Dinosaur</a></li>
+                <li><a href="{% url 'list_favorites' %}">Favorites</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
 
     {% block content %}
     {% endblock %}
+
+    <footer>
+        <p>&copy; 2023 Dinosaur App. All rights reserved.</p>
+    </footer>
 
     {% block extra_scripts %}
     {% endblock %}
