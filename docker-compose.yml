@@ -4,20 +4,32 @@ services:
     image: postgres
     volumes:
       - dbdata:/var/lib/postgresql/data/
+      - ./docker/db-init:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_DB: dinosaur_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
     ports:
       - "5432:5432"
   web:
     build: .
-    command: python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+    command: sh -c "python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py createsuperuser --username dino-admin --no-input && python dinosaur_app/manage.py makemigrations dinosaurs && python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
+      - ./media:/code/media
     ports:
       - "8000:8000"
+    environment:
+      - DJANGO_SUPERUSER_EMAIL=admin@dinopedia.com
+      - DJANGO_SUPERUSER_PASSWORD=Dinopedia-admin,123
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 volumes:
   dbdata:

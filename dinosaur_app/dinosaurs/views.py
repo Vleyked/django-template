@@ -1,3 +1,5 @@
+import base64, os
+from django.core.files.base import ContentFile
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
@@ -5,6 +7,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.conf import settings
+
+
 from .models import Dinosaur, DinoImage, Favorite
 from .forms import DinosaurForm, DinoImageForm
 
@@ -48,14 +53,35 @@ def home(request):
 
 
 @login_required
+# def dinosaur_detail(request, pk):
+#     dino = get_object_or_404(Dinosaur, pk=pk)
+#     images = DinoImage.objects.filter(dinosaur=dino)
+#     image_urls = []
+#     for image in images:
+#         image_urls.append(
+#             f"data:{image.content_type};base64,{base64.b64encode(image.image.read()).decode()}"
+#         )
+#     is_favorited = Favorite.objects.filter(user=request.user, dinosaur=dino).exists()
+#     return render(
+#         request,
+#         "dinosaur_detail.html",
+#         {"dino": dino, "image_urls": image_urls, "is_favorited": is_favorited},
+#     )
 def dinosaur_detail(request, pk):
     dino = get_object_or_404(Dinosaur, pk=pk)
     images = DinoImage.objects.filter(dinosaur=dino)
-    is_favorited = Favorite.objects.filter(user=request.user, dinosaur=dino).exists()
+    image_urls = []
+    for image in images:
+        image_path = os.path.join(settings.MEDIA_ROOT, str(image.image))
+        with open(image_path, "rb") as f:
+            image_data = f.read()
+            image_base64 = base64.b64encode(image_data).decode()
+            image_url = f"data:image/jpeg;base64,{image_base64}"
+            image_urls.append(image_url)
     return render(
         request,
         "dinosaur_detail.html",
-        {"dino": dino, "images": images, "is_favorited": is_favorited},
+        {"dino": dino, "images": images, "image_urls": image_urls},
     )
 
 
@@ -70,6 +96,32 @@ def add_dinosaur(request):
     else:
         form = DinosaurForm()
     return render(request, "add_dinosaur.html", {"form": form})
+
+
+@login_required
+def search_results(request):
+    query = request.GET.get("q")
+    print(
+        query
+    )  # Add this line to check that the search query is being retrieved correctly
+    if query:
+        dinosaurs = Dinosaur.objects.filter(name__icontains=query)
+    else:
+        dinosaurs = Dinosaur.objects.all()
+    return render(request, "search_results.html", {"dinosaurs": dinosaurs})
+
+
+@login_required
+def edit_dinosaur(request, pk):
+    dino = get_object_or_404(Dinosaur, pk=pk)
+    if request.method == "POST":
+        form = DinosaurForm(request.POST, request.FILES, instance=dino)
+        if form.is_valid():
+            form.save()
+            return redirect("dinosaur_detail", pk=dino.pk)
+    else:
+        form = DinosaurForm(instance=dino)
+    return render(request, "dinosaur_edit.html", {"form": form, "dino": dino})
 
 
 @login_required
@@ -99,27 +151,26 @@ def delete_dinosaur(request, pk):
 @login_required
 @require_http_methods(["POST"])
 def add_image(request, pk):
-    dino = get_object_or_404(Dinosaur, pk=pk)
-    form = DinoImageForm(request.POST, request.FILES)
-    if form.is_valid():
-        image = form.save(commit=False)
-        image.dinosaur = dino
-        image.save()
-        messages.success(request, "Image added!")
-        return JsonResponse({"success": True, "img_url": image.image.url})
+    dinosaur = get_object_or_404(Dinosaur, pk=pk)
+    if request.method == "POST":
+        form = DinoImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.dinosaur = dinosaur
+            image.save()
+            return redirect("dinosaur_detail", pk=dinosaur.pk)
     else:
-        return JsonResponse({"success": False, "errors": form.errors})
+        form = DinoImageForm()
+    return render(request, "add_image.html", {"form": form, "dinosaur": dinosaur})
 
 
 @login_required
 @require_http_methods(["POST"])
 def delete_image(request, pk):
-    dino = get_object_or_404(Dinosaur, pk=pk)
-    image_id = request.POST.get("image_id")
-    image = get_object_or_404(DinoImage, pk=image_id, dinosaur=dino)
-    image.delete()
-    messages.success(request, "Image deleted!")
-    return JsonResponse({"success": True})
+    dino_image = get_object_or_404(DinoImage, pk=pk)
+    dinosaur_pk = dino_image.dinosaur.pk
+    dino_image.delete()
+    return redirect("dinosaur_detail", pk=dinosaur_pk)
 
 
 @login_required
@@ -130,6 +181,17 @@ def toggle_favorite(request, pk):
     if not created:
         fav.delete()
     return JsonResponse({"success": True, "is_favorited": not created})
+
+
+@login_required
+def add_favorite(request, pk):
+    dino = get_object_or_404(Dinosaur, pk=pk)
+    fav, created = Favorite.objects.get_or_create(user=request.user, dinosaur=dino)
+    if created:
+        messages.success(request, "Added to favorites.")
+    else:
+        messages.error(request, "This dinosaur is already in your favorites.")
+    return redirect("dinosaur_detail", pk=dino.pk)
 
 
 @login_required

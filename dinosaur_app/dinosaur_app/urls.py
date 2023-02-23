@@ -25,15 +25,17 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/register/", views.register, name="register"),
     path("", views.home, name="home"),
+    path("search_results/", views.search_results, name="search_results"),
     path("dinosaur/<int:pk>/", views.dinosaur_detail, name="dinosaur_detail"),
     path("dinosaur/add/", views.add_dinosaur, name="add_dinosaur"),
+    path("dinosaur/<int:pk>/edit/", views.edit_dinosaur, name="edit_dinosaur"),
     path("dinosaur/<int:pk>/update/", views.update_dinosaur, name="update_dinosaur"),
     path("dinosaur/<int:pk>/delete/", views.delete_dinosaur, name="delete_dinosaur"),
     path("dinosaur/<int:pk>/image/add/", views.add_image, name="add_image"),
     path("dinosaur/<int:pk>/image/delete/", views.delete_image, name="delete_image"),
     path("dinosaur/<int:pk>/favorite/", views.toggle_favorite, name="toggle_favorite"),
+    path("dinosaur/<int:pk>/favorite/add/", views.add_favorite, name="add_favorite"),
     path("favorites/", views.list_favorites, name="list_favorites"),
 ]
-
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

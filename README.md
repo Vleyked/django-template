@@ -8,7 +8,7 @@ Abc123,666
 Before running the application, you will need to have the following software installed on your machine:
 
 Docker[https://docs.docker.com/install/]
-Docker Compose[https://docs.docker.com/compose/install/]
+Docker Compose plug in [https://docs.docker.com/compose/install/]
 
 ## Installation
 To install and run the application, follow these steps:
@@ -28,18 +28,6 @@ cd dinopedia
 3. Build the Docker image for the web service:
 
 ```bash
-docker-compose build
-```
-
-4. Apply the database migrations:
-
-```bash
-docker-compose run web python manage.py migrate
-```
-
-5. Start the application:
-
-```bash
 docker-compose up
 ```
 
@@ -53,3 +41,16 @@ If you make changes to your models in `models.py` or add new dependencies to you
 To stop the application, press `Ctrl+C` in the terminal where `docker-compose` up is running.
 
 That's it! With these steps, you should have the Dinopedia application running on your machine.
+
+## Cleaning up
+To stop the application, press `Ctrl+C` in the terminal where `docker-compose` up is running.
+
+To remove the Docker containers and volumes, run the following command:
+
+`docker stop $(docker ps -a -q)`
+`docker rm $(docker ps -a -q)`
+`docker volume rm $(docker volume ls -q)`
+`docker rmi $(docker images -q)`
+`docker network prune`
+
+Happy coding!

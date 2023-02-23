@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Search Results</h1>
+{% if dinosaurs %}
+{% for dinosaur in dinosaurs %}
+<h2>{{ dinosaur.name }}</h2>
+<p>Period: {{ dinosaur.period }}</p>
+<p>Size: {{ dinosaur.size }}</p>
+<p>Eating: {{ dinosaur.eating }}</p>
+<p>Color: {{ dinosaur.color }}</p>
+<p>Description: {{ dinosaur.description }}</p>
+{% if dinosaur.image %}
+<img src="{{ dinosaur.image.url }}" alt="{{ dinosaur.name }}">
+{% endif %}
+
+<form method="POST" action="{% url 'add_favorite' dinosaur.id %}">
+    {% csrf_token %}
+    <button type="submit">Add as favorite</button>
+</form>
+{% endfor %}
+{% else %}
+<p>No dinosaurs found.</p>
+{% endif %}
+{% endblock %}

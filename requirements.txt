@@ -1,0 +1,6 @@
+Django
+psycopg2-binary
+django-environ
+Pillow
+django-bootstrap4
+django-crispy-forms

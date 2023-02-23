@@ -49,7 +49,7 @@ class Dinosaur(models.Model):
 
 class DinoImage(models.Model):
     dinosaur = models.ForeignKey(Dinosaur, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="dinosaur_images/")
+    image = models.FileField(upload_to="dinosaur_images/")
 
     def __str__(self):
         return self.image.name

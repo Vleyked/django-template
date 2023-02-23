@@ -25,10 +25,14 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
-        max_length=150, widget=forms.TextInput(attrs={"class": "form-control"})
+        max_length=254,
+        widget=forms.TextInput(attrs={"autofocus": True}),
+        error_messages={"required": "Please enter a valid username."},
     )
     password = forms.CharField(
-        strip=False, widget=forms.PasswordInput(attrs={"class": "form-control"})
+        strip=False,
+        widget=forms.PasswordInput,
+        error_messages={"required": "Please enter your password."},
     )
 
     class Meta:
@@ -40,9 +44,20 @@ class DinosaurForm(forms.ModelForm):
     class Meta:
         model = Dinosaur
         fields = ["name", "period", "size", "eating", "color", "description"]
+        error_messages = {
+            "name": {"required": "Please enter a name."},
+            "period": {"required": "Please select a period."},
+            "size": {"required": "Please select a size."},
+            "eating": {"required": "Please select an eating habit."},
+            "color": {"required": "Please enter a color."},
+            "description": {"required": "Please enter a description."},
+        }
 
 
 class DinoImageForm(forms.ModelForm):
     class Meta:
         model = DinoImage
         fields = ["image"]
+        widgets = {
+            "image": forms.FileInput(attrs={"class": "form-control-file"}),
+        }

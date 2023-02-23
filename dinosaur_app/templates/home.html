@@ -1,56 +1,35 @@
-{% extends 'base.html' %}
-
-{% block title %}Dinopedia{% endblock %}
+{% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<h1>Welcome to Dinopedia</h1>
-<p>
-    Dinopedia is your one-stop shop for all things dinosaur-related! Use the links
-    in the navigation bar to explore the different features of our app, including
-    adding and browsing dinosaurs, adding images to dinosaurs, and favoriting your
-    favorite dinos.
-</p>
-<h2>All Dinosaurs</h2>
-<form method="get" class="search-form">
-    <label for="search">Search by period:</label>
-    <select name="period" id="search">
-        <option value="">All periods</option>
-        <option value="triassic">Triassic</option>
-        <option value="jurassic">Jurassic</option>
-        <option value="cretaceous">Cretaceous</option>
-        <option value="paleogene">Paleogene</option>
-        <option value="neogene">Neogene</option>
-    </select>
-    <button type="submit">Search</button>
-</form>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Period</th>
-            <th>Size</th>
-            <th>Eating</th>
-            <th>Color</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <h1>Welcome to DinoPedia</h1>
+    <p>Explore the amazing world of dinosaurs</p>
+    <hr>
+    <form method="get" action="{% url 'search_results' %}">
+        <input type="text" name="query" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+    <hr>
+    <div class="row">
         {% for dinosaur in dinosaurs %}
-        <tr>
-            <td>{{ dinosaur.name }}</td>
-            <td>{{ dinosaur.period }}</td>
-            <td>{{ dinosaur.get_size_display }}</td>
-            <td>{{ dinosaur.get_eating_display }}</td>
-            <td>{{ dinosaur.color }}</td>
-            <td>
-                <a href="{% url 'dinosaur_detail' dinosaur.pk %}">Details</a>
-            </td>
-        </tr>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if dinosaur.image %}
+                <img class="card-img-top" src="{{ dinosaur.image.url }}" alt="{{ dinosaur.name }}">
+                {% else %}
+                <img class="card-img-top" src="{% static 'dinosaur_images/myself.jpg' %}" alt="{{ dinosaur.name }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ dinosaur.name }}</h5>
+                    <p class="card-text">{{ dinosaur.description }}</p>
+                    <a href="{% url 'dinosaur_detail' dinosaur.pk %}" class="btn btn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
         {% empty %}
-        <tr>
-            <td colspan="6">No dinosaurs found.</td>
-        </tr>
+        <p>No dinosaurs found.</p>
         {% endfor %}
-    </tbody>
-</table>
+    </div>
+</div>
 {% endblock %}
