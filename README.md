@@ -7,8 +7,8 @@ Abc123,666
 ## Prerequisites
 Before running the application, you will need to have the following software installed on your machine:
 
-Docker[https://docs.docker.com/install/]
-Docker Compose plug in [https://docs.docker.com/compose/install/]
+[Docker](https://docs.docker.com/install/)
+[Docker Compose plug in](https://docs.docker.com/compose/install/)
 
 ## Installation
 To install and run the application, follow these steps:
