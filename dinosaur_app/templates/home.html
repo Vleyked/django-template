@@ -18,7 +18,7 @@
                 {% if dinosaur.image %}
                 <img class="card-img-top" src="{{ dinosaur.image.url }}" alt="{{ dinosaur.name }}">
                 {% else %}
-                <img class="card-img-top" src="{% static 'dinosaur_images/myself.jpg' %}" alt="{{ dinosaur.name }}">
+                <p class="card-img-top"> No images for {{ dinosaur.name }}</p>
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ dinosaur.name }}</h5>
