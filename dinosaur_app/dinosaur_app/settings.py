@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "dinosaurs",
     "bootstrap4",
+    "crispy_forms",
 ]
 
 MIDDLEWARE = [
@@ -107,17 +108,21 @@ USE_L10N = True
 
 USE_TZ = True
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 STATIC_URL = "/static/"
 
-MEDIA_URL = "/media/"
-
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+MEDIA_URL = f"{BASE_DIR}/media/"
 
 # Bootstrap4 settings
 
 BOOTSTRAP4 = {
     "include_jquery": True,
 }
+CRISPY_TEMPLATE_PACK = "crispy-tailwind"
+
 
 # Login and Logout URLs
 
