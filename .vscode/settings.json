@@ -1,0 +1,22 @@
+{
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        }
+    },
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "flake8.args": [
+        "--max-line-length",
+        "88"
+    ],
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "autoDocstring.docstringFormat": "numpy",
+    "python.analysis.typeCheckingMode": "basic"
+}
