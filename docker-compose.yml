@@ -19,7 +19,8 @@ services:
       - "5432:5432"
   web:
     build: .
-    command: sh -c "python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py createsuperuser --username dino-admin --no-input && python dinosaur_app/manage.py makemigrations dinosaurs && python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py runserver 0.0.0.0:8000"
+    entrypoint: sh -c "python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py createsuperuser --username dino-admin --no-input && python dinosaur_app/manage.py makemigrations dinosaurs && python dinosaur_app/manage.py migrate && python dinosaur_app/manage.py runserver 0.0.0.0:8000"
+    command: ["python", "dinosaur_app/manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - .:/code
       - ./media:/code/media
