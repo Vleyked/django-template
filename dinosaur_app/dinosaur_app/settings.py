@@ -108,24 +108,30 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# Static
 
 STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(
+    BASE_DIR, "staticfiles"
+)  # collectstatic will gather static files here
 
+STATICFILES_DIRS = [
+    (
+        "img",
+        os.path.join(BASE_DIR, "static"),
+    ),  # static files in this folder will be gathered by collectstatic
+]
+
+# Media files
+MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-MEDIA_URL = f"{BASE_DIR}/media/"
 
-# Bootstrap4 settings
-
-BOOTSTRAP4 = {
-    "include_jquery": True,
-}
+# Crispy templates settings
 CRISPY_TEMPLATE_PACK = "crispy-tailwind"
 
 
 # Login and Logout URLs
-
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
 LOGIN_REDIRECT_URL = "home"
