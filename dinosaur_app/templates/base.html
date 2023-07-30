@@ -1,70 +1,51 @@
 {% load static %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
     {% block extra_head %}
     {% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 
-
-<body>
+<body class="bg-gray-100">
     <!-- Header -->
     <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="{% url 'home' %}">
-                        <img src="{% static 'dinopedia-logo.png' %}" alt="Dinopedia" width="40" height="40"
-                            class="d-inline-block align-text-top me-2" />
-                        Dinopedia
-                    </a>
-                </li>
+        <nav class="bg-blue-500 p-3 flex justify-between items-center">
+            <a class="navbar-brand text-white font-bold text-xl" href="{% url 'home' %}">
+                <img src="{% static 'dinopedia-logo.png' %}" alt="Dinopedia" width="40" height="40"
+                    class="d-inline-block align-text-top me-2" />
+                Dinopedia
+            </a>
+            <ul class="flex gap-4">
                 {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'add_dinosaur' %}">Add Dinosaur</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'list_favorites' %}">Favorites</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
+                <li><a class="text-white hover:text-blue-300" href="{% url 'add_dinosaur' %}">Add Dinosaur</a></li>
+                <li><a class="text-white hover:text-blue-300" href="{% url 'list_favorites' %}">Favorites</a></li>
+                <li><a class="text-white hover:text-blue-300" href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
+                <li><a class="text-white hover:text-blue-300" href="{% url 'login' %}">Login</a></li>
+                <li><a class="text-white hover:text-blue-300" href="{% url 'register' %}">Register</a></li>
                 {% endif %}
-            </ul>
-            </div>
             </ul>
         </nav>
     </header>
 
     <!-- Body -->
-    <div class="container my-4"></div>
+    <main class="container mx-auto px-4">
     {% block content %}
     {% endblock %}
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <p> Victor Cid 2023 Dinopedia. </p>
+    <footer class="bg-blue-500 text-center p-4 mt-8 text-white">
+        <p>© Victor Cid 2023 Dinopedia.</p>
     </footer>
 
     {% block extra_scripts %}
     {% endblock %}
 </body>
-<style />
 
 </html>
