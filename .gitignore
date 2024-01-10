@@ -133,3 +133,6 @@ dmypy.json
 
 # Custom workflows
 Makefile
+
+# Environment variables
+env/

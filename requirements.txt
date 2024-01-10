@@ -1,6 +1,7 @@
-Django
-psycopg2-binary
-django-environ
-Pillow
-django-bootstrap4
-django-crispy-forms
+Django==4.2.9
+django-crispy-forms==2.1
+djangorestframework==3.14.0
+mysqlclient==2.2.1
+python-dotenv==1.0.0
+pytz==2023.3.post1
+sqlparse==0.4.4
