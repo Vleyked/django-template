@@ -1,17 +1,18 @@
-import base64, os
-from django.core.files.base import ContentFile
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import login, logout
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
-from django.http import JsonResponse
+import base64
+import os
+
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
 
-
-from .models import Dinosaur, DinoImage, Favorite
-from .forms import DinosaurForm, DinoImageForm
+from .forms import DinoImageForm, DinosaurForm
+from .models import DinoImage, Dinosaur, Favorite
 
 
 def register(request):
